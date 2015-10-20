@@ -1,0 +1,1029 @@
+<!DOCTYPE HTML >
+<html>
+
+<head>
+<meta charset="utf-8">
+
+<title>WHERE's MY LINK???</title>
+<meta name="description" content="">
+<meta name="author" content="">
+
+<link href="bootstrap.css" rel="stylesheet">
+<link href="css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+<link href="autoCompleteStyles.css" rel="stylesheet">
+<link href="css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+/* Override some defaults */
+/* Override some defaults */
+/* Fake one */
+
+/* Override some defaults */
+html,body {
+	background-color: #eee;
+}
+
+body {
+	padding-top: 40px;
+	/* 40px to make the container go all the way to the bottom of the topbar */
+}
+
+.container>footer p {
+	text-align: center; /* center align it with the container */
+}
+
+.container {
+	width: 820px;
+	/* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+}
+
+/* The white background content wrapper */
+.container>.content {
+	background-color: #fff;
+	padding: 20px;
+	margin: 0 -20px;
+	/* negative indent the amount of the padding to maintain the grid system */
+	-webkit-border-radius: 0 0 6px 6px;
+	-moz-border-radius: 0 0 6px 6px;
+	border-radius: 0 0 6px 6px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+}
+
+/* Page header tweaks */
+.page-header {
+	background-color: #f5f5f5;
+	padding: 20px 20px 10px;
+	margin: -20px -20px 20px;
+	/* 	text-align:center; */
+}
+
+/* Styles you shouldn't keep as they are for displaying this base example only */
+.content .span10,.content .span4 {
+	min-height: 500px;
+}
+/* Give a quick and non-cross-browser friendly divider */
+.content .span4 {
+	margin-left: 0;
+	padding-left: 19px;
+	border-left: 1px solid #eee;
+}
+
+.topbar .btn {
+	border: 0;
+}
+
+body { padding: 20px; }
+/* remove the line below the head of table*/
+thead.hidden + tbody > tr:first-child > td {
+    border-top: 0;
+}
+
+/* @import "media/css/demo_page.css"; */
+/* @import "media/css/demo_table.css"; */
+
+div.dataTables_length label {
+    width: 460px;
+    float: left;
+    text-align: left;
+}
+ 
+div.dataTables_length select {
+    width: 75px;
+}
+ 
+div.dataTables_filter label {
+    float: right;
+    width: 460px;
+}
+ 
+div.dataTables_info {
+    padding-top: 8px;
+}
+ 
+div.dataTables_paginate {
+    float: right;
+    margin: 0;
+}
+ 
+table {
+    margin: 1em 0;
+    clear: both;
+}
+
+</style>
+
+<style type="text/css">
+* { font-family: Verdana; font-size: 96%; }
+label { width: 10em; float: left; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { clear: both; }
+.submit { margin-left: 12em; }
+em { font-weight: bold; padding-right: 1em; vertical-align: top; }
+</style>
+
+<script type="text/javascript" src="jquery-1.7.1.js"></script>
+<!-- <script type="text/javascript" src="jquery.autocomplete.js"></script> -->
+<script type="text/javascript" src="bootstrap-modal.js"></script>
+<script type="text/javascript" src="bootstrap-alerts.js"></script>
+<script type="text/javascript" src="jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="jquery.validate.js"></script>
+<script type="text/javascript" src="jquery.json-2.3.min.js"></script>
+<script type="text/javascript" src="bootstrap-twipsy.js"></script>
+<script type="text/javascript" src="bootstrap-tabs.js"></script>
+<script type="text/javascript" src="jquery_ui_dialog_plugin.js"></script>
+<script type="text/javascript" src="md5-min.js"></script>
+<script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+<script src="http://js.pusher.com/1.10/pusher.min.js" type="text/javascript"></script>
+<!-- <script type="text/javascript" src="media/js/jquery.dataTables.js"></script> -->
+<!-- <script type="text/javascript" src="media/js/paging.js"></script> -->
+
+<script type="text/javascript" charset="utf-8">
+	function openUsrStatDialog(){
+		$('#dialog').dialog( "open" );
+	}
+	
+	function showSignUpWin(){
+		$('#modal-signup-from').modal({
+			  keyboard: true,
+			  backdrop: true,
+			  fade: true
+			});
+// 		$('#modal-signup-from').modal('show');
+	};
+
+	function hideSignUpWin(){
+		$('#modal-signup-from').modal('hide');
+	};
+
+	function signUpWrongNameAction(usrname){
+		$('#showSignUpWarning').html(
+	          "<div class=\"alert-message error fade in\"  data-alert=\"alert\" align=\"center\">"  
+	          +  "User name <strong>\"" + usrname + "\"</strong> already exists!" 
+	          + "</div>"
+	          );
+	}	
+	
+	function loginWrongNameAction(usrname){
+		var anotherSignUpLink = "anotherSignUpLink";
+		$('#showLoginWarning').html(
+	          "<div class=\"alert-message warning fade in\"  data-alert=\"alert\" align=\"center\">"  
+	          +  "<a class=\"close\" href=\"#\">&times;</a>" 
+	          +  "No such user name <strong>\"" + usrname + "\"</strong>, please correct it or "
+	          + "<a id=" + anotherSignUpLink + ">Sign Up</a>" 
+	          + "</div>"
+	    );
+		$("#" + anotherSignUpLink).attr('href', "javascript:showSignUpWin()");
+	}
+	
+	function loginAlreadyWithOtherUser(){
+		$('#showLoginWarning').html(
+		          "<div class=\"alert-message error fade in\"  data-alert=\"alert\" align=\"center\">" 
+		          +  "<a class=\"close\" href=\"#\">&times;</a>" 
+		          +  "You have already login with other user name! Please check other browser tabs or pages." 
+		          + "</div>"
+		          );		
+	}
+	
+	function loginWrongPasswordAction(){
+		$('#showLoginWarning').html(
+	          "<div class=\"alert-message error fade in\"  data-alert=\"alert\" align=\"center\">" 
+	          +  "<a class=\"close\" href=\"#\">&times;</a>" 
+	          +  "Password wrong!" 
+	          + "</div>"
+	          );
+	}
+	
+	function analyseResult(rtv){
+		if (rtv.status == 2) {
+			// end
+			$('#ShowSearchStatusId').html(
+					"<div class=\"alert-message success fade in\" data-alert=\"alert\" align=\"center\">" +  
+		        	"<a class=\"close\" href=\"#\">&times;</a>" +
+		        	"Searching finish! All the result are shown in the table below." + 
+		        	"</div>"
+		    );
+			searchButtonEnable('#search-btn', "Search");
+			$('#ajaxBusy').hide(); 
+			
+			fetchUserHistory();	
+// 			$('#tblUpdate').tablesorter({ sortList: [[1,0]] });
+			
+// 			$("#tblUpdate").dataTable({
+// 						"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+// 						"sPaginationType": "bootstrap"
+// 			});
+			
+		}else{
+			var imgSrc, imgSrcName;
+			if (rtv.urlWorkStatus == 0){
+ 				imgSrcName = "error.png";
+			}else if (rtv.urlWorkStatus == 1){
+				imgSrcName = "ajax-loader2.gif";
+			}else if (rtv.urlWorkStatus == 2){
+				imgSrcName = "ok.png";
+			}else{
+				imgSrcName = "where.png";
+			}
+			
+			var id = "trID_" + rtv.currentLink;
+			var id_img = id + "_img"
+			imgSrc = "<img id=\"" + id_img + "\" src=\"" + imgSrcName + "\">";
+			var urlSrc = "<a href=\"" + rtv.url + "\" target=\"_blank\">" + rtv.url + "</a>"
+			
+			var urtTextHtml = "";
+			var thisTwipsyTitle = "Please check your html file. Link text is missing in <a href=\"url\">Link text</a>. Maybe your hyperlink is on a image";
+			if (rtv.urlText == ""){
+				urtTextHtml = "<td><a rel='twipsy' title='" + thisTwipsyTitle + "'>Missing</a></td>";
+			}else{
+				urtTextHtml = "<td width=\"45%\">" + rtv.urlText + "</td>";
+			}
+			
+			if ($("#" + id).length > 0) {
+				$("#" + id_img).attr("src", imgSrcName);
+				$("#" + id_img).load();
+			}  else {
+				$('#tblBodyID').append(
+					"<tr id=\""+ id + "\">" +
+						"<td align=\"center\" width=\"5%\">" + rtv.currentLink + "</td>" +
+						urtTextHtml +
+						"<td width=\"45%\">" + urlSrc + "</td>" +
+						"<td align=\"center\" width=\"5%\">" + imgSrc + "</td>" +
+					"</tr>"
+				);
+			}
+		}
+	}
+	
+	function userHistroyDelete(searchID, url){
+		$.post("DeleteHistoryServlet", {
+			searchID : searchID,
+		}, function(rtv) {
+			fetchUserHistory();
+			$('#showLoginWarning').html(
+			          "<div class=\"alert-message success fade in\"  data-alert=\"alert\" align=\"center\">" 
+			          +  "<a class=\"close\" href=\"#\">&times;</a>" 
+			          +  "You just deleted the history of <strong>" + url + "</strong>." 
+			          + "</div>"
+			);			
+		});
+	}
+	
+	function userHistroyToggleShow(searchID){
+ 		$('#' + searchID).show();
+	}
+	
+	function generalHistoryDetailTbl(detail, searchID, url){
+		var subTblHtml = "<h3 id='" + searchID + "'><a href=\"#\">Result of <strong>" + url + "</strong></a></h3><div>"; 
+		subTblHtml = subTblHtml + "<table id='" + searchID + "' class=\"condensed-table\"><thead><tr><th>#</th><th>Name</th><th>URLs</th><th>Status</th></tr></thead><tbody>";
+		
+		$.each(detail, function(index, value) {	
+			var showIndex = index + 1;
+			var textUrl = value.text;
+			
+			if (textUrl == ""){
+				textUrl = "Missing";
+			}
+			
+			var imgSrc, imgSrcName;
+			if (value.status == 0){
+ 				imgSrcName = "error.png";
+			}else if (value.status == 1){
+				imgSrcName = "ajax-loader2.gif";
+			}else if (value.status == 2){
+				imgSrcName = "ok.png";
+			}else{
+				imgSrcName = "where.png";
+			}
+			imgSrc = "<img src=\"" + imgSrcName + "\">";			
+			
+			subTblHtml = subTblHtml + 
+			"<tr>" +
+			"<td>" + showIndex + "</td>" +
+			"<td>" + textUrl + "</td>" +
+			"<td>" + value.url + "</td>" +
+			"<td>" + imgSrc + "</td>" +
+			"</tr>";			
+		});
+		subTblHtml = subTblHtml + "</tbody></table></div>";
+
+		$('#showLoginUserTab').append(subTblHtml);
+	}
+	
+	function fetchUserHistory(){
+		// fetch history
+		$.get("FetchHistoryServlet", function(rtvJSON) {	
+			if (rtvJSON.result == 0){
+				$('#showLoginUserTab').hide();
+				$('#showLoginUserTab').empty();
+				var tblHtml = "<h3><a href=\"#\"><strong>History</strong></a></h3>"
+					+ "<div><table class=\".zebra-striped\" id=\"tableHistoryID\">"
+					+ "<thead><tr>"
+					+ 	"<th>#</th>"
+					+	"<th>Site</th>"
+					+	"<th>Last visit</th>"
+					+	"<th>Good/Total</th>"	
+					+	"<th>Action</th>"							
+					+	"</tr></thead>"
+					+	"<tbody id=\"tbodyHistoryID\">"
+				$.each(rtvJSON.userHistoryList, function(index, value) {
+					var invalidUrl = parseInt(value.cntBadUrl) + parseInt(value.cntTimeout);
+					var showIndex = index + 1;
+					var delStr = "<a href=\"#\" onclick=\"userHistroyDelete('" + value.searchID + "');\">Delete</a>";
+					var updateStr = "<a href=\"#\" onclick=\"userHistroyToggleShow('" + value.searchID + "', '" + value.url + "');\">Show</a>";
+// 					var actionStr = updateStr + " " + delStr;
+					var actionStr = delStr;
+					tblHtml = tblHtml + 
+					"<tr>" +
+					"<td>" + showIndex + "</td>" +
+// 					"<td>" + value.searchID + "</td>" +
+					"<td>" + value.url + "</td>" +
+					"<td>" + value.lastVisitTime + "</td>" +
+					"<td>" +  value.cntGoodLink + "/" +value.cntCouterpartUrl + "</td>" +
+					"<td name=\"" + value.searchID + "\">" + actionStr + "</td>" +
+					"</tr>";
+// 					var detailString = generalHistoryDetailTbl(value.detail, value.searchID);
+// 					tblHtml = tblHtml + "<tr><td colspan=5>" + detailString + "</td></tr>";
+
+				});
+				tblHtml = tblHtml + "</tbody></table></div>"	 
+				$('#showLoginUserTab').html(tblHtml);
+
+				// generate detail table
+				$.each(rtvJSON.userHistoryList, function(index, value) {
+					generalHistoryDetailTbl(value.detail, value.searchID, value.url);
+				});
+
+				
+// 				$('#tbodyHistoryID').html(tblHtml);
+// 				$('#tbodyHistoryID td:nth-child(2)').hide();
+// 				$("table.condensed-table").dataTable({
+// 						"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+// 						"sPaginationType": "bootstrap"
+// 				});
+// 				$("table.condensed-table").hide();
+// 				$( "#showLoginUserTab" ).accordion({
+// 					collapsible: true,
+// 					active:false,
+// 					autoHeight: false,
+// 					navigation: true
+// 				});
+				
+				$( "#showLoginUserTab" ).accordion( "destroy" );
+				
+				$( "#showLoginUserTab" ).accordion({
+					active:false,
+					collapsible: true,
+					autoHeight: false,
+					navigation: true
+				});
+				$('#showLoginUserTab').show();
+			}
+		}); 
+	}
+	
+	function welcomeUser(usrname){
+		$('#showLoginWarning').html(
+		          "<div class=\"alert-message info fade in\"  data-alert=\"alert\" align=\"center\">" 
+		          +  "<a class=\"close\" href=\"#\">&times;</a>" 
+		          +  "Welcome <strong>" +usrname+ "</strong>, you can browse your search history." 
+		          + "</div>"
+		);
+		
+		$('#loginForm').hide();
+		$('#linkToSignUpWin').hide();
+		
+		$('#welcomeUsrMsgID').html("Welcome, " + usrname);
+		$('#idSecondNav').show();
+		
+		$('#autoSaveId').attr("disabled", false);
+
+		fetchUserHistory();		
+		
+		$('#showLoginUserTab').show();
+	}	
+	
+	function logoutAction(){
+		$('#ajaxBusy').show();
+		$.get("LogoutServlet", function(jsonRtv) {
+			if (jsonRtv == 1){
+				$('#showLoginWarning').html(
+				          "<div class=\"alert-message info fade in\"  data-alert=\"alert\" align=\"center\">" 
+				          +  "<a class=\"close\" href=\"#\">&times;</a>" 
+				          +  "You have logout successfully!" 
+				          + "</div>"
+				          );
+			} else {
+				$('#showLoginWarning').html(
+				          "<div class=\"alert-message warning fade in\"  data-alert=\"alert\" align=\"center\">" 
+				          +  "<a class=\"close\" href=\"#\">&times;</a>" 
+				          +  "You have logout before!" 
+				          + "</div>"
+				          );				
+			}
+		});		
+		$('#welcomeUsrMsgID').empty();
+		$('#idSecondNav').hide();
+		
+		$('#loginForm').show();
+		$('#linkToSignUpWin').show();
+		$('#autoSaveId').attr("disabled", true);
+		
+		$('#showLoginUserTab').hide();
+		
+		$('#ajaxBusy').hide();
+	}
+	
+	function emptyAlert(elem){
+		elem.empty();
+	}
+	
+	function searchButtonDisable(elem, text){
+		$(elem).attr("disabled", true);
+		$(elem).html(text);
+	}
+	
+	function searchButtonEnable(elem,text){
+		$(elem).attr("disabled", false);
+		$(elem).html(text);
+	}
+	
+	$(document).ready(
+			function() {
+
+				var options, a;
+				  
+				  $('#searchAutoSuggest').autocomplete({
+					  source: "AutoSuggestion",
+				      minLength: 2
+				  });
+				  
+				  jQuery.validator.addMethod("ContainDomain", 
+							  function(value, element, params) {
+					 			var str = $(params).val();
+							  	return (str.indexOf(value) != -1);
+							  }, 
+							  "URL has to contain domain string"
+				 );				  
+				  
+					$("#signupForm").validate({
+					    errorClass:'error',
+					    validClass:'success',
+					    errorElement:'span',
+					    highlight: function (element, errorClass, validClass) { 
+					    	if ($(element).parents("div[class='clearfix']").length > 0){
+					    		$(element).parents("div[class='clearfix']").addClass(errorClass).removeClass(validClass);	
+					    	}else{
+					    		$(element).parents(".success").addClass(errorClass).removeClass(validClass);
+					    	}
+					    }, 
+					    unhighlight: function (element, errorClass, validClass) { 
+					        $(element).parents(".error").removeClass(errorClass).addClass(validClass);
+					    },						
+						rules: {
+							signup_usrname: {
+								required:true,
+								minlength:3
+							},
+							signup_email: {
+								required:true,
+								email:true
+							},
+							signup_password: {
+								required:true,
+								minlength:6
+							},
+							signup_passwordConfirm: {
+								required:true,
+								equalTo:'#signup_password',
+								minlength:6
+							}
+						},
+						messages: {
+							signup_usrname: {
+								required:"This field is required",
+								minlength:"At least 3 characters"
+							},
+							signup_email: {
+								required:"This field is required",
+								email:"Valid email is required"
+							},
+							signup_password: {
+								required:"This field is required",
+							},
+							signup_passwordConfirm: {
+								required:"This field is required",
+								equalTo:'Please enter same password twice'
+							}							
+						}
+					});
+
+					$("#signupForm").submit(
+							function(event) {
+								/* stop form from submitting normally */
+								event.preventDefault();
+								
+								if(!$("#signupForm").valid()){
+									return;
+								};
+								
+								searchButtonDisable('#signupConfirm', "Get Start");
+								searchButtonDisable('#signupCancel', "Cancel");
+								$('#ajaxBusy_SignUp').show();
+								
+								/* get some values from elements on the page: */
+								var $form = $(this), 
+									term4 = $form.find('input[name="signup_usrname"]').val(),
+									term5 = $form.find('input[name="signup_email"]').val(),
+									term6 = $form.find('input[name="signup_password"]').val(),
+									url = $form.attr('action');
+
+								/* Send the data using post and put the results in a div */
+								$.post(url, {
+									signup_usrname : term4,
+									signup_email : term5,
+									signup_password : term6,
+								}, function(rtv) {
+									$('#ajaxBusy_SignUp').hide();
+									searchButtonEnable('#signupConfirm', "Get Start");
+									searchButtonEnable('#signupCancel', "Cancel");										
+									if (rtv == "0"){
+										hideSignUpWin();
+ 										// login
+										loginUrl = "Login";
+										/* Send the data using post and put the results in a div */
+										$.post(loginUrl, {
+											login_username : term4,
+											login_password : term6,
+										}, function(rtv) {	
+											if (rtv == "0"){
+												welcomeUser(term4);
+											}else if (rtv == "1"){
+												alert("WTF: why???, wrong username");
+											}else if (rtv ==  "2"){
+												alert("WTF: why???, wrong password");
+											}
+										}); 										
+									}else{
+										signUpWrongNameAction(term4);
+									}
+								});
+							});
+					
+				$("#searchForm").validate({
+				    errorClass:'error',
+				    validClass:'success',
+				    errorElement:'span',
+				    highlight: function (element, errorClass, validClass) { 
+				    	if ($(element).parents("div[class='clearfix']").length > 0){
+				    		$(element).parents("div[class='clearfix']").addClass(errorClass).removeClass(validClass);	
+				    	}else{
+				    		$(element).parents(".success").addClass(errorClass).removeClass(validClass);
+				    	}
+				    }, 
+				    unhighlight: function (element, errorClass, validClass) { 
+				        $(element).parents(".error").removeClass(errorClass).addClass(validClass);
+				    },						
+					rules: {
+						urlToCrawl: {
+							required:true,
+							url:true
+						},
+						urlFilter: {
+							required:true,
+							ContainDomain:'#searchAutoSuggest'
+						}
+					},
+					messages: {
+						urlToCrawl: {
+							required: "Please input a URL",
+							url: "Please enter a valid URL"
+						},
+						urlFilter: {
+							required: "Please enter the URL domain filter",
+						}
+					}
+				});
+				
+				$("#searchForm").submit(
+						function(event) {
+							/* stop form from submitting normally */
+							event.preventDefault();
+							
+							if(!$("#searchForm").valid()){
+								return;
+							};
+							
+							searchButtonDisable('#search-btn', "Searching...");
+							$('#ajaxBusy').show(); 
+							$('#tblBodyID').empty();
+// 							var oTable = $('#tblUpdate').dataTable();
+// 							oTable.fnClearTable();
+							
+							/* get some values from elements on the page: */
+							var $form = $(this), 
+								term1 = $form.find('input[name="urlToCrawl"]').val(),
+								term2 = $form.find('input[name="urlFilter"]').val(),
+								term3,
+								url = $form.attr('action');
+							var randomNum = Math.floor(Math.random() * 10000);
+							var randomNumStr = randomNum.toString();
+						
+							if ($('#autoSaveId').is(":checked")){
+								term3 = "true";
+							}else{
+								term3 = "false";
+							}
+
+							/* Send the data using post and put the results in a div */
+							$.post(url, {
+								urlToCrawl : term1,
+								urlFilter : term2,
+								isSave : term3,
+								randomNum : randomNumStr
+							}, function(responseText) {
+								var info;
+								if (responseText == "0"){
+									info = "<div class=\"alert-message error\" data-alert=\"alert\" align=\"center\">" +  
+						        	"<a class=\"close\" href=\"#\">\&times;</a>" +
+						        	"Fetch URL <strong>" + term1 + "</strong> error. " +
+						        	"Please check the link you input" + 
+						        	"</div>";
+									searchButtonEnable('#search-btn', "Search");
+									$('#ajaxBusy').hide();
+								} else {
+									info = "<div class=\"alert-message info\" data-alert=\"alert\" align=\"center\">" +  
+							        "<a class=\"close\" href=\"#\">&times;</a>" +
+							        "Fetch \"<strong>" + term1 + "</strong>\" complete." +
+							        "There are <strong>" + responseText + "</strong> out links. Analysing..." + 
+							        "</div>";
+							        
+									var pusher = new Pusher('13fa3ccdb4aa64fbcedb');
+									var originalStr = term1 + "_" + term2 + "_" + randomNumStr;
+									var channelName = hex_md5(originalStr);
+									var resultChannel = pusher.subscribe(channelName);
+									resultChannel.bind('update', function(data) {
+						   	  			analyseResult(data);
+						    		});		
+									
+									$('#tblUpdate').show();
+									$('#legendResult').show();
+								}
+								
+								$('#ShowSearchStatusId').html(info);
+								
+							});
+						});
+
+				$("#loginForm").submit(
+						function(event) {
+
+							/* stop form from submitting normally */
+							event.preventDefault();
+							
+							$('#ajaxBusy').show();
+							/* get some values from elements on the page: */
+							var $form = $(this), 
+								term1 = $form.find('input[name="login_username"]').val(),
+								term2 = $form.find('input[name="login_password"]').val(),
+								url = $form.attr('action');
+
+							/* Send the data using post and put the results in a div */
+							$.post(url, {
+								login_username : term1,
+								login_password : term2,
+							}, function(rtv) {
+								$('#ajaxBusy').hide();
+								if (rtv == "0"){
+									welcomeUser(term1)
+								}else if (rtv == "1"){
+									loginWrongNameAction(term1);
+								}else if (rtv ==  "2"){
+									loginWrongPasswordAction();
+								}else if (rtv == "100"){
+									loginAlreadyWithOtherUser();
+								}
+							});
+							$form.find('input[name="login_username"]').val('');
+							$form.find('input[name="login_password"]').val('');
+						});				
+				
+// 				$("table#urlResultTable").tablesorter();
+				
+				
+				$(".flip").click(function() {
+					$(".panel").slideToggle("slow");
+				});
+					
+				$('#linkToSignUpWin').attr('href', "javascript:showSignUpWin()");
+				$('#idSecondNav').hide();
+				$('#showLoginUserTab').hide();
+				
+				$('#ajaxBusy').hide(); 
+				$('#ajaxBusy_SignUp').hide();
+				
+				$('#tblUpdate').hide();
+				$('#legendResult').hide();
+				
+				$("a[rel=twipsy]").twipsy({
+                	live: true
+	             });
+				
+								
+				$('#modal-signup-from').modal({
+					  keyboard: true,
+					  backdrop: true,
+					  fade: true
+					});
+				
+				
+
+				
+				
+				$(function() {
+					
+					// for datatable sort
+// 					$.extend( $.fn.dataTableExt.oStdClasses, {
+// 					    "sSortAsc": "header headerSortDown",
+// 					    "sSortDesc": "header headerSortUp",
+// 					    "sSortable": "header"
+// 					} );
+					
+					$( "#dialog" ).dialog({ 
+						draggable: false, 
+						resizable: false, 
+						zIndex: 3999, 
+						position: ['right','bottom'],
+						width:200,
+						height:120,
+						maximize:false,
+						title:"User Statistic",
+						sticky:true
+					});
+				    WEB_SOCKET_DEBUG = true;
+				    Pusher.log = function(message) {
+				    	  if (window.console && window.console.log) window.console.log(message);
+				    	};
+				    
+				    var pusher = new Pusher('13fa3ccdb4aa64fbcedb');
+				    var channel1 = pusher.subscribe('UserNumberChannel');
+				    channel1.bind('updateTotalUser', function(data) {
+				    	var txt = "<strong>" + data + "</strong> people register";
+					      $( "#totalUserNumId" ).html(txt);
+				    });
+
+				    var channel2 = pusher.subscribe('UserNumberChannel');
+				    channel2.bind('updateOnlineUser', function(data) {
+					 	  	  var txt = "<strong>" + data + "</strong> people online";
+					      $( "#onlineUserNumId" ).html(txt);
+					});
+
+				    var channel3 = pusher.subscribe('UserNumberChannel');
+				    channel3.bind('updateSearchingUser', function(data) {
+				    	  var txt = "<strong>" + data + "</strong> people searching";
+					      $( "#searchingUserNumId" ).html(txt);
+					    });
+				});
+				
+				/* Send the data using post and put the results in a div */
+				$.get("UserStatServlet", function(jsonRtv) {
+					if (jsonRtv.rtv == 1){
+						welcomeUser(jsonRtv.usrname);
+					}
+		    	  	var txt = "<strong>" + jsonRtv.searchingUsrNum + "</strong> people searching";
+			      	$( "#searchingUserNumId" ).html(txt);	
+			      	txt = "<strong>" + jsonRtv.onlineUsrNum + "</strong> people online";
+				    $( "#onlineUserNumId" ).html(txt);
+				    txt = "<strong>" + jsonRtv.totalUsrNum + "</strong> people register";
+				    $( "#totalUserNumId" ).html(txt);
+				});				
+			});
+</script>
+
+<!-- Le fav and touch icons -->
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72"
+	href="images/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114"
+	href="images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+
+	<div id="dialog" title="User Statistic"> 
+		<ul>
+			<li id="totalUserNumId"></li>
+			<li id="onlineUserNumId"></li>
+			<li id="searchingUserNumId"></li>
+		</ul> 
+	</div> 
+
+	<div class="topbar">
+		<div class="fill">
+			<div class="container" id="topNavBarId">
+				<!-- 				<a class="brand" href="#">WebCrawler</a> -->
+				<ul class="nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="javascript:openUsrStatDialog()">User Statistic</a></li>
+				</ul>
+				
+				<ul class="nav secondary-nav">
+					<li>
+					<form id="loginForm" action="Login" class="pull-right">
+					<input class="input-small" name="login_username" type="text" placeholder="Username">
+					<input class="input-small" name="login_password" type="password" placeholder="Password">
+					<button class="btn" type="submit">Sign in</button>
+					</form>
+					</li>
+					<li><a id="linkToSignUpWin"><strong>Sign Up</strong></a></li>				
+				</ul>
+				
+				<ul class="nav secondary-nav" id="idSecondNav">
+			    	<li><a id="welcomeUsrMsgID" href="#"></a></li>
+			    	<li><a id="userSettingID" href="javascript:logoutAction()"><strong>Setting</strong></a></li>
+			        <li><a id="logoutID" href="javascript:logoutAction()"><strong>Logout</strong></a></li>
+			    </ul>					
+			</div>
+		</div>
+	</div>
+
+	<div id="modal-signup-from" class="modal hide fade">
+		<form id="signupForm" action="SignUpAction">
+		<fieldset>
+		<div class="modal-header">
+			<!-- 			<a href="#" class="close">&times;</a> -->
+			<h3 align="center">Create An Account</h3>
+		</div>
+		<div class="modal-body">
+			<div> 
+					<div class="clearfix">
+						<label for="signup_usrname">User Name</label>
+						<div class="input">
+							<input id="signup_usrname" name="signup_usrname"
+								placeholder="used for login" size="16" type="text" autofocus/>
+						</div>
+					</div>
+					<div class="clearfix">
+						<label for="signup_email">Email Address</label>
+						<div class="input">
+							<input id="signup_email" name="signup_email"
+								placeholder="" size="16" type="text" />
+						</div>
+					</div>
+					<div class="clearfix">
+						<label for="signup_password">Password</label> 
+						<div class="input">
+							<input id="signup_password" name="signup_password"
+								placeholder="" size="16" type="password" />
+						</div>
+					</div>
+					<div class="clearfix">
+						<label for="signup_passwordConfirm">Confirm Password</label>
+						<div class="input">
+							 <input	id="signup_passwordConfirm" name="signup_passwordConfirm" 
+							 	placeholder="" size="16" type="password" />
+						</div>
+					</div>
+					<div id="ajaxBusy_SignUp"><p align="center"><img src="ajax-loader.gif"></p></div>
+					<div id="showSignUpWarning"></div>						
+			</div>
+		</div>
+
+		<div class="modal-footer">
+			<a href="javascript:hideSignUpWin()"	class="btn secondary" id="signupCancel">Cancel</a>		
+<!-- 			<a href="#" class="btn primary" id="signupConfirm" >Get Start</a>  -->
+			<button id="signupConfirm" type="submit" class="btn primary">Get Start</button>
+		</div>
+		</fieldset>
+		</form>
+	</div>
+
+	<div class="container">
+		<div class="content">
+			<div class="page-header">
+				<h1>
+					Where Is My F***ING Link???<br /> 
+					<small>This tool helps you blame the guy who does not share your website link</small>
+<!-- 					You make a deal with some guys that you exchange your homepage link.But some guy are annoying... -->
+				</h1>
+			</div>
+			<div id="showLoginWarning">
+			</div>
+			
+			<div id="showLoginUserTab">
+			</div>
+			
+			<form class=".form-stacked" action="MainServlet" id="searchForm">
+				<fieldset>
+
+				<div class="clearfix">
+					<label for="searchAutoSuggest"><strong>Your URL</strong></label>
+					<div class="input">
+					 <input class="span7"  id="searchAutoSuggest"
+						name="urlToCrawl" type="text" 	value="http://" 
+						placeholder="Please Input Website..." />
+					</div>
+				</div>	
+				<div class="clearfix">
+					<label for="id_urlFilter"><strong>Your Domain</strong></label>
+					<div class="input">
+					<input class="span7"  id="id_urlFilter" name="urlFilter" type="text"
+						placeholder="Only search URLs which not contain this string"/>
+					</div>
+				</div>	
+				
+				<div class="row">
+  				  <div class="span8">
+<!-- 				    <div class="clearfix"> -->
+
+                    		<input id="autoSaveId" type="checkbox"  name="saveCheckboxes" value="1" disabled/> 
+                    		Auto Save the result 				    
+<!-- 					<label for="id_httpTimeOut"><strong>Timeout (ms)</strong></label> -->
+<!-- 					<div class="input"> -->
+<!-- 					<input class="span2"  id="id_httpTimeOut" name="httpTimeOut" type="text" -->
+<!-- 						placeholder="ms" value="10000"/> -->
+<!-- 					</div> -->
+				  </div>
+				  <div class="span5">
+				    <button id="search-btn" type="submit" class="btn primary span2">Search</button>
+<!--  				    <button id="tableSave" class="btn" data-toggle="toggle">Save</button> -->
+				  </div>
+				</div>
+
+				</fieldset>
+			</form>
+
+			<div id="ajaxBusy"><p align="center"><img src="ajax-loader.gif"></p></div>
+
+			<div id="ShowSearchStatusId">
+			</div>
+
+			<div id="legendResult">
+				<table  class=".zebra-striped">
+					<thead class="hidden">
+					</thead>
+					<tbody>
+						<tr>
+							<td width="3%"><img src="ok.png"></td>
+							<td align="left" width="22%">
+								<a rel='twipsy' title='You have mine, mine has yours'>Good link</a>
+							</td>
+							<td width="3%"><img src="error.png"></td>
+							<td align="left" width="22%">
+								<a rel='twipsy' title='Fetch the url failure. Is the target website down? Or set timeout longer'>Cannot fetch URL</a>
+							</td>							
+							<td width="3%"><img src="where.png"></td>
+							<td align="left" width="22%">
+								<a rel='twipsy' title='Attent this link: you point to it, but it does not point back to you'>Link you should blame</a>
+							</td>							
+							<td width="3%"><img src="ajax-loader2.gif"></td>
+							<td align="left" width="22%">
+								<a rel='twipsy' title='Our backend program is analysing this url, please wait...'>Analysing link</a>
+							</td>							
+						</tr>
+					</tbody>
+				</table>
+			</div>	
+			
+			<div id="urlResultTable">
+				<table  class=".zebra-striped"
+					id="tblUpdate">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+							<th>URLs</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody id="tblBodyID">
+
+					</tbody>
+					<tfoot>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+							<th>URLs</th>
+							<th>Status</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+
+
+
+		<footer>
+		<p>&copy; RuG 2012</p>
+		</footer>
+
+	</div>
+
+	<div class="spacer"></div>
+
+	<!-- /container -->
+
+</body>
+</html>

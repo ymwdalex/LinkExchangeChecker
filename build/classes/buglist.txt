@@ -1,0 +1,22 @@
+sign up => logout => signup, previous user info still there
+
+// Sign up button move to the right most
+
+Setting button
+
+MainServlet: when user duplicately searching, return error, deal with the error msg in html
+
+Add a "You are searching:  ..." in dialog
+
+// {invalid channel name??? need map string to a valid string}
+	==> solve, using MD5 
+	
+twitter bootstrap twipsy: how to newline???
+
+datatable: layout?????
+
+//accordion: why second call the function, it doesn't collapse
+	{destory, then create}
+
+DB auto configure
+

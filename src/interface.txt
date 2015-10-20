@@ -1,0 +1,102 @@
+Interface:
+
+Search result: Pusher ==> UI
+	rtv: ???
+	index: index in total urls;
+	url: link
+	urlText: text, sometimes(often) missing
+	result: 
+		0: fetch url timeout, (or bad url??)
+		1: still working...
+		2: good link, has mine url
+		3: bad link, doesn't share my url
+
+Search MainServlet.java ==> UI
+	rtv: {
+		0: success
+		1: already searching
+	}
+	
+FetchHistoryServlet: ==> UI
+	rtv:{
+		0: success
+		1: error
+	}
+	size: int
+	HistoryArrayList
+	
+History: {
+	searchID: url_domain_username
+	lastVisitTime: time
+	url: url
+	domain: String
+	totalOutLink: int
+	cntGoodLink: int
+	cntBadLink: int
+	cntTimeout: int
+	BadUrl: int
+	UrlList: {
+		Url: url
+		urlText: String
+		result: 
+			0: fetch url timeout, (or bad url??)
+			1: still working...
+			2: good link, has mine url
+			3: bad link, doesn't share my url 
+	}
+}
+AnalysisPage.jave ==>Save to DB
+	searchID: url_domain_username
+	lastSearchTime: time
+	url: url
+	domain: String
+	totalOutLink: int
+	cntGoodLink: int
+	cntBadLink: int
+	cntTimeout: int
+	BadUrl: int
+	UrlList: {
+		Url: url
+		urlText: String
+		result: 
+			0: fetch url timeout, (or bad url??)
+			1: still working...
+			2: good link, has mine url
+			3: bad link, doesn't share my url 
+	}
+
+DB :: UserInfo Collection{
+	username : String
+	password : String
+	email : String
+	lastVisitTime: time
+	history: ==> CurrUser::Set<String> history;
+}
+
+DB :: CurrUser Collection {
+	registerUserNum: int
+	OnlineUserNum: int
+	SearchingUserNum: int
+}
+
+DB :: HistoryInfo Collection {
+	searchID: url_domain_username
+	lastVisitTime: time
+	url: url
+	urlText: string
+	domain: String
+	totalOutLink: int
+	cntGoodLink: int
+	cntBadLink: int
+	cntTimeout: int
+	BadUrl: int
+	UrlList: { ==> outUrlInfo class
+		Url: url
+		urlText: String
+		result: 
+			0: fetch url timeout, (or bad url??)
+			1: still working...
+			2: good link, has mine url
+			3: bad link, doesn't share my url 
+	}
+}

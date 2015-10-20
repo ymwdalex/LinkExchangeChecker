@@ -1,0 +1,21 @@
+			<form class=".form-stacked" action="MainServlet" id="searchForm">
+				<fieldset>
+				<legend>Please input URL and the domain filter</legend>
+				<div class="clearfix">
+					<label for="searchAutoSuggest">Input your website homepage</label>
+					<div class="input">
+					 <input class="xlarge" id="searchAutoSuggest"
+						name="urlToCrawl" type="text" 	value="http://" 
+						placeholder="Please Input Website..." />
+					</div>
+				</div>	
+				<div class="clearfix">
+					<label for="id_urlFilter">Your website domain</label>
+					<div class="input">
+					<input id="id_urlFilter" name="urlFilter" type="text"
+						placeholder="This is the url filter" />
+					</div>
+				</div>	
+				<button class="btn primary">Search</button>
+				</fieldset>
+			</form>
